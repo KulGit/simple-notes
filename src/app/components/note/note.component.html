@@ -1,0 +1,20 @@
+
+<div class="wraper">
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form">
+
+        <div class="title">
+            <label>Заголовок</label><br>
+            <input formControlName="title">
+        </div>
+
+        <div class="text">
+            <label>Текст</label><br>
+            <input formControlName="text">
+        </div>
+
+
+        <button type="submit" class="button">Сохранить</button>
+    </form>
+
+</div>

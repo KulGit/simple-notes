@@ -1,0 +1,27 @@
+.wraper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid gray;
+    border-radius: 10px;
+    padding: 5px;
+    position: relative;
+    
+    .delete {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        border: 1px solid gray;
+    }
+    .header {
+        margin: 25px 0px 20px 0px;
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+
+        .title {
+            font-size: 20px;
+            font-weight: 600;        
+        }
+    }
+}

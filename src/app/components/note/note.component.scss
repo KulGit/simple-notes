@@ -1,0 +1,12 @@
+.wraper {
+
+    .form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        .button {
+            max-width: 11rem;
+        }
+    }
+}

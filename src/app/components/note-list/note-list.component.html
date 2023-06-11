@@ -1,0 +1,21 @@
+<p>note-list works!</p>
+
+<div class="wraper">
+    <div class="panel">
+        <input class="search">
+        <button routerLink="note" class="add"> Add new note</button>
+    </div>
+    <div class="sort">
+        <button (click)="sortByTitle()">Сортировка по заголовку</button>
+        <button (click)="sortByDate()">Сортировка по дате</button>
+    </div>
+    <div *ngFor="let note of notes" class="card">
+        <app-note-card
+        [title]="note.title"
+        [date]="note.date"
+        [text]="note.text"
+        (delete)="deleteNote(note)"
+        ></app-note-card>
+    </div>
+
+</div>
