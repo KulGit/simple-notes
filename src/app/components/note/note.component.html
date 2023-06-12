@@ -1,21 +1,15 @@
 
 <div class="wraper">
-
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form">
-
         <div>
             <label>Заголовок</label><br>
             <input formControlName="title" class="title">
         </div>
-
         <div>
             <label>Текст</label><br>
             <textarea formControlName="text" class="textarea">
             </textarea>
         </div>
-
-
         <button type="submit" class="button">Сохранить</button>
     </form>
-
 </div>

@@ -37,5 +37,4 @@ export class NoteComponent implements OnInit {
       this.router.navigate(['/'])
     }
   }
-
 }

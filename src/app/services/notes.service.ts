@@ -10,44 +10,32 @@ export class NotesService {
 
   public notes: Note[] = new Array<Note>;
 
-  private stateSubject = new BehaviorSubject<any>([]);
+  public stateSubject = new BehaviorSubject<any>([]);
 
   public storageKey = 'notes';
-  private isLocalStorageUpdated = false;
+  public isLocalStorageUpdated = false;
 
   constructor( @Inject(LOCAL_STORAGE) private storage: StorageService) {
     const storeState = this.storage.get('notes');
     if (storeState) {
       this.stateSubject.next(storeState)
     }
-
-    window.addEventListener('storage', (event) => {
-      if (event.key === this.storageKey && event.newValue && !this.isLocalStorageUpdated) {
-        const newState = JSON.parse(event.newValue);
-        this.stateSubject.next(newState);
-      }
-      this.isLocalStorageUpdated = false;
-    });
-   }
+  }
 
   public addNote(note: Note) {
     if (!this.notes) {
-      this.notes = []
+      this.notes = [];
     }
-    let length = this.notes.push(note);
+    this.notes.push(note);
     this.storage.set('notes', this.notes);
-    let index = length - 1;
     this.stateSubject.next(this.notes);
     this.isLocalStorageUpdated = true;
 
     window.postMessage({ key: this.storageKey, value: JSON.stringify(note) }, '*');
-    return index;
-    
   }
 
   public getAllNotes() {
     this.notes = this.storage.get('notes');
-
     return this.stateSubject.asObservable();
   }
 
@@ -61,6 +49,9 @@ export class NotesService {
     this.storage.set('notes', notes);
     this.notes.splice(id, 1);
     this.stateSubject.next(this.notes);
+    this.isLocalStorageUpdated = true;
+
+    window.postMessage({ key: this.storageKey, value: JSON.stringify(notes) }, '*');
   }
 
   public sortNotes(isAscending:boolean) {
@@ -95,7 +86,7 @@ export class NotesService {
   }
 
   public getState() {
-    return this.stateSubject.asObservable()
+    const storeState = this.storage.get('notes');
+    this.stateSubject.next(storeState);
   }
-
 }

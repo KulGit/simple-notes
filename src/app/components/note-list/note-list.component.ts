@@ -18,8 +18,11 @@ export class NoteListComponent implements OnInit {
   public noteText!: string;
   public noteDate!: string;
 
-  public isAscending: boolean = false;
+  public isAscendingByTitle: boolean = false;
+  public isAscendingByDate: boolean = false;
 
+
+  private storageHandler!:(event: StorageEvent) => void;
 
   constructor(
     private service: NotesService,
@@ -28,7 +31,17 @@ export class NoteListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.notes$ = this.service.getAllNotes()
+    this.notes$ = this.service.getAllNotes();
+
+    this.storageHandler = (event: StorageEvent) => {
+      if (event.key === this.service.storageKey && event.newValue && !this.service.isLocalStorageUpdated) {
+        const newState = JSON.parse(event.newValue);
+        this.service.stateSubject.next(newState);
+      }
+      this.service.isLocalStorageUpdated = false;
+    }
+
+    window.addEventListener('storage', this.storageHandler);
   }
 
   public deleteNote(note: Note) {
@@ -49,12 +62,16 @@ export class NoteListComponent implements OnInit {
   }
 
   public sortByTitle(): void {
-   this.isAscending = !this.isAscending;
-   this.service.sortNotes(this.isAscending);
+   this.isAscendingByTitle = !this.isAscendingByTitle;
+   this.service.sortNotes(this.isAscendingByTitle);
   }
 
   public sortByDate(): void {
-    this.isAscending = !this.isAscending;
-    this.service.sortByDates(this.isAscending);
+    this.isAscendingByDate = !this.isAscendingByDate;
+    this.service.sortByDates(this.isAscendingByDate);
+  }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('storage', this.storageHandler)
   }
 }

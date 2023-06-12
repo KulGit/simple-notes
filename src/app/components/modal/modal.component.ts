@@ -5,7 +5,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss']
 })
-export class ModalComponent implements OnInit {
+export class ModalComponent {
 
   @Input() isOpen!: boolean | null;
   @Input() title!: string;
@@ -13,11 +13,6 @@ export class ModalComponent implements OnInit {
   @Input() date!: string;
 
   @Output() close: EventEmitter<void> = new EventEmitter<void>()
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
 
   public onClose(): void {
     this.close.emit()

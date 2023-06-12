@@ -9,18 +9,22 @@ import { NotesService } from './services/notes.service';
 export class AppComponent implements OnInit {
   title = 'angular-notes';
 
+  private messageHandler!:(event: MessageEvent) => void;
+
   constructor( private service: NotesService){}
 
   ngOnInit(): void {
-    
-    window.addEventListener('message', (event) => {
+    this.messageHandler = (event: MessageEvent) => {
       const message = event.data;
       if (message && message.key === this.service.storageKey) {
-        const newState = JSON.parse(message.value);
+        this.service.getState();
       }
-    });
+    }
+    
+    window.addEventListener('message', this.messageHandler);
+  }
 
-
-
+  ngOnDestroy(): void {
+    window.removeEventListener('message', this.messageHandler);
   }
 }
