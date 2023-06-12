@@ -1,17 +1,19 @@
 <div class="wraper">
     <div class="delete" (click)="onDelete()">X</div>
-    <div class="header">
-        <div class="title">
-            {{title}}
+    <div class="body" (click)="showDetails()">
+        <div class="header">
+            <div>
+                {{date}}
+            </div>
+            <div class="title">
+                {{title}}
+            </div>
         </div>
-        <div>
-            {{date}}
-        </div>
-    </div>
-    <div class="text">
-        <p>
+        <div class="text" #textNote>
             {{text}}
-        </p>
+        </div>
+        <div class="truncation" #trancation>
+        </div>
     </div>
 </div>
 

@@ -8,6 +8,7 @@ import { NoteListComponent } from './components/note-list/note-list.component';
 import { NoteComponent } from './components/note/note.component';
 import { NoteCardComponent } from './components/note-card/note-card.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ModalComponent } from './components/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MainLayoutComponent,
     NoteListComponent,
     NoteComponent,
-    NoteCardComponent
+    NoteCardComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,

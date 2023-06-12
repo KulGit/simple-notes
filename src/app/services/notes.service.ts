@@ -1,30 +1,58 @@
 import { Inject, Injectable } from '@angular/core';
 import { Note } from '../interfaces/note.interface';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotesService {
 
-  notes: Note[] = new Array<Note>;
-  
-  constructor(@Inject(LOCAL_STORAGE) private storage: StorageService) { }
+  public notes: Note[] = new Array<Note>;
+
+  private stateSubject = new BehaviorSubject<any>([]);
+
+  public storageKey = 'notes';
+  private isLocalStorageUpdated = false;
+
+  constructor( @Inject(LOCAL_STORAGE) private storage: StorageService) {
+    const storeState = this.storage.get('notes');
+    if (storeState) {
+      this.stateSubject.next(storeState)
+    }
+
+    window.addEventListener('storage', (event) => {
+      if (event.key === this.storageKey && event.newValue && !this.isLocalStorageUpdated) {
+        const newState = JSON.parse(event.newValue);
+        this.stateSubject.next(newState);
+      }
+      this.isLocalStorageUpdated = false;
+    });
+   }
 
   public addNote(note: Note) {
-    let length = this.notes.push(note)
-    this.storage.set('notes', this.notes)
+    if (!this.notes) {
+      this.notes = []
+    }
+    let length = this.notes.push(note);
+    this.storage.set('notes', this.notes);
     let index = length - 1;
+    this.stateSubject.next(this.notes);
+    this.isLocalStorageUpdated = true;
+
+    window.postMessage({ key: this.storageKey, value: JSON.stringify(note) }, '*');
     return index;
+    
   }
 
   public getAllNotes() {
-    this.notes = this.storage.get('notes')
-    return this.notes;
+    this.notes = this.storage.get('notes');
+
+    return this.stateSubject.asObservable();
   }
 
   public getNoteId(note: Note) {
-    return this.notes.indexOf(note);
+    return this.notes.findIndex(n => n.title === note.title)
   }
 
   public deleteNote(id: number) {
@@ -32,6 +60,7 @@ export class NotesService {
     notes.splice(id, 1);
     this.storage.set('notes', notes);
     this.notes.splice(id, 1);
+    this.stateSubject.next(this.notes);
   }
 
   public sortNotes(isAscending:boolean) {
@@ -40,6 +69,7 @@ export class NotesService {
     } else {
       this.notes.sort((a,b) => b.text.localeCompare(a.text))
     }
+    this.stateSubject.next(this.notes);
   }
 
   public getFormattedDate(): string {
@@ -49,7 +79,7 @@ export class NotesService {
       day: 'numeric',
       hour: 'numeric',
       minute: 'numeric',
-      hour12: true,
+      hour12: false,
     };
 
     return new Date().toLocaleDateString('en-US', options).replace('at', '');
@@ -61,6 +91,11 @@ export class NotesService {
       const dateB = new Date(b.date);
       return isAscending ? (dateA.getTime() - dateB.getTime()) : (dateB.getTime() - dateA.getTime())
     })
+    this.stateSubject.next(this.notes);
+  }
+
+  public getState() {
+    return this.stateSubject.asObservable()
   }
 
 }

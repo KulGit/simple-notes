@@ -1,10 +1,18 @@
-.sort {
-    display: flex;
-    justify-content: space-between;
-    margin: 20px;
-    gap: 15px;
-}
+.wraper {
 
-.card {
-    margin: 10px;
+    .panel {
+        display: flex;
+        gap: 15px;    
+        justify-content: center;
+    }
+    .sort {
+        display: flex;
+        justify-content: space-between;
+        margin: 20px;
+        gap: 15px;
+    }
+    
+    .card {
+        margin: 10px;
+    }
 }

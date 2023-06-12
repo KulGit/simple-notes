@@ -32,7 +32,6 @@ export class NoteComponent implements OnInit {
 
   public onSubmit(): void {
     if (this.form.valid) {
-      console.log(this.form.value)
       this.form.controls['date'].setValue(this.service.getFormattedDate());
       this.service.addNote(this.form.value)
       this.router.navigate(['/'])
