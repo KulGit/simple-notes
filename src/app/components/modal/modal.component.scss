@@ -10,13 +10,16 @@
     background-color: rgba(0, 0, 0, 0.5);
 
     .modal-content {
-        width: 300px;
+        width: 420px;
         background: white;
         border: 1px solid blue;
         padding: 10px;
         position: relative;
         overflow-wrap: break-word;
         border-radius: 10px;
+        background-color: #e5e5f7;
+        background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, #e5e5f7 10px ), repeating-linear-gradient( #98f74555, #98f745 );;
+    
 
         .close {
             position: absolute;
