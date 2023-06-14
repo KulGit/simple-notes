@@ -1,10 +1,21 @@
 <div class="wraper">
     <div class="panel">
-        <button routerLink="note" class="add button"> Добавить заметку</button>
+        <app-button
+        [text]="'Добавить заметку'" 
+        routerLink="note"
+        >  </app-button>
     </div>
     <div class="sort">
-        <button (click)="sortByTitle()" class="button">Сортировка по заголовку</button>
-        <button (click)="sortByDate()" class="button">Сортировка по дате</button>
+        <app-button
+        [text]="'Сортировка по заголовку'"
+        (click)="sortByTitle()"
+        >
+        </app-button>
+        <app-button
+        [text]="'Сортировка по дате'"
+        (click)="sortByDate()"
+        >
+        </app-button>
     </div>
     <div *ngFor="let note of notes$ | async" class="card">
         <app-note-card

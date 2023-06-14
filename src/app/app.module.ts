@@ -9,6 +9,7 @@ import { NoteComponent } from './components/note/note.component';
 import { NoteCardComponent } from './components/note-card/note-card.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ModalComponent } from './components/modal/modal.component';
+import { ButtonComponent } from './components/button/button.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { ModalComponent } from './components/modal/modal.component';
     NoteListComponent,
     NoteComponent,
     NoteCardComponent,
-    ModalComponent
+    ModalComponent,
+    ButtonComponent
   ],
   imports: [
     BrowserModule,
